@@ -12,6 +12,18 @@ services:
       - "9000:9000"
       - "9001:9001"
 
+  minio-init:
+    image: minio/mc
+    container_name: minio-init
+    depends_on:
+      - minio
+    entrypoint: >
+      /bin/sh -c "
+      until (/usr/bin/mc alias set myminio http://minio:9000 minioadmin minioadmin) do sleep 1; done;
+      /usr/bin/mc mb myminio/nessie-bucket;
+      exit 0;
+      "
+
   nessie:
     image: projectnessie/nessie
     container_name: nessie
@@ -26,6 +38,7 @@ services:
       - NESSIE_VERSION_STORE_S3_PATH_STYLE_ACCESS=true
     depends_on:
       - minio
+      - minio-init
 
   nessie-ui:
     image: projectnessie/nessie-ui
