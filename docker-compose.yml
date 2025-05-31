@@ -11,7 +11,8 @@ services:
     ports:
       - "9002:9002"
       - "9003:9003"
-    # AI! add a volume mount for the /data directory here
+    volumes:
+      - ./data:/data  # Mount the host directory ./data to the container directory /data
 
   minio-init:
     image: minio/mc
