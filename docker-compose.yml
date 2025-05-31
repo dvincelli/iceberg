@@ -40,14 +40,6 @@ services:
       - minio
       - minio-init
 
-  nessie-ui:
-    image: ghcr.io/projectnessie/nessie-ui
-    container_name: nessie-ui
-    ports:
-      - "8080:8080"
-    environment:
-      NESSIE_API_URL: http://nessie:19120/api/v1
-
   clickhouse:
     image: yandex/clickhouse-server
     container_name: clickhouse
