@@ -7,10 +7,11 @@ services:
     environment:
       MINIO_ROOT_USER: minioadmin
       MINIO_ROOT_PASSWORD: minioadmin
-    command: server /data
+    command: server --address :9002 --console-address :9003 /data
     ports:
-      - "9000:9000"
-      - "9001:9001"
+      - "9002:9002"
+      - "9003:9003"
+    # AI! add a volume mount for the /data directory here
 
   minio-init:
     image: minio/mc
@@ -41,19 +42,19 @@ services:
       - minio-init
 
   clickhouse:
-    image: yandex/clickhouse-server
+    image: clickhouse/clickhouse-server
     container_name: clickhouse
     ports:
       - "8123:8123"
       - "9001:9000"  # Change this to a different port, e.g., 9001:9000
       - "9009:9009"
 
-  spark:
-    image: bitnami/spark
-    container_name: spark
-    environment:
-      - SPARK_MODE=master
-    ports:
-      - "8088:8088"
-      - "7077:7077"
-      - "4040:4040"
+#  spark:
+#    image: bitnami/spark
+#    container_name: spark
+#    environment:
+#      - SPARK_MODE=master
+#    ports:
+#      - "8088:8088"
+#      - "7077:7077"
+#      - "4040:4040"
