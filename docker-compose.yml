@@ -45,7 +45,7 @@ services:
     container_name: clickhouse
     ports:
       - "8123:8123"
-      - "9000:9000"
+      - "9001:9000"  # Change this to a different port, e.g., 9001:9000
       - "9009:9009"
 
   spark:
