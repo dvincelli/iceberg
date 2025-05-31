@@ -41,7 +41,7 @@ services:
       - minio-init
 
   nessie-ui:
-    image: projectnessie/nessie-ui
+    image: ghcr.io/projectnessie/nessie-ui
     container_name: nessie-ui
     ports:
       - "8080:8080"
