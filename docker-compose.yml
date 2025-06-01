@@ -42,7 +42,7 @@ services:
     ports:
       - "19120:19120"
     environment:
-      - NESSIE_VERSION_STORE_TYPE=S3
+      - NESSIE_VERSION_STORE_TYPE=in-memory
       - NESSIE_VERSION_STORE_S3_ENDPOINT=http://minio:9002
       - NESSIE_VERSION_STORE_S3_ACCESS_KEY=minioadmin
       - NESSIE_VERSION_STORE_S3_SECRET_KEY=minioadmin
