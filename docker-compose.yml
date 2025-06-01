@@ -13,6 +13,7 @@ services:
       - "9003:9003"
     volumes:
       - ./data:/data  # Mount the host directory ./data to the container directory /data
+    # AI! add a health check for this service
 
   minio-init:
     image: minio/mc
@@ -21,7 +22,7 @@ services:
       - minio
     entrypoint: >
       /bin/sh -c "
-      until (/usr/bin/mc alias set myminio http://minio:9000 minioadmin minioadmin) do sleep 1; done;
+      /usr/bin/mc alias set myminio http://minio:9002 minioadmin minioadmin;
       /usr/bin/mc mb myminio/nessie-bucket;
       exit 0;
       "
@@ -33,14 +34,13 @@ services:
       - "19120:19120"
     environment:
       - NESSIE_VERSION_STORE_TYPE=S3
-      - NESSIE_VERSION_STORE_S3_ENDPOINT=http://minio:9000
+      - NESSIE_VERSION_STORE_S3_ENDPOINT=http://minio:9002
       - NESSIE_VERSION_STORE_S3_ACCESS_KEY=minioadmin
       - NESSIE_VERSION_STORE_S3_SECRET_KEY=minioadmin
       - NESSIE_VERSION_STORE_S3_BUCKET=nessie-bucket
       - NESSIE_VERSION_STORE_S3_PATH_STYLE_ACCESS=true
     depends_on:
       - minio
-      - minio-init
 
   clickhouse:
     image: clickhouse/clickhouse-server
