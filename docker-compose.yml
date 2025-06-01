@@ -1,5 +1,5 @@
 version: '3.8'
-
+# AI! put all services on a network named iceberg-network
 services:
   minio:
     image: minio/minio
