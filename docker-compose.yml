@@ -47,6 +47,7 @@ services:
       - NESSIE_VERSION_STORE_S3_SECRET_KEY=minioadmin
       - NESSIE_VERSION_STORE_S3_BUCKET=nessie-bucket
       - NESSIE_VERSION_STORE_S3_PATH_STYLE_ACCESS=true
+    # AI! put a healt condition on the depends_on 
     depends_on:
       - minio
     networks:
