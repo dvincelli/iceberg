@@ -24,6 +24,7 @@ services:
   minio-init:
     image: minio/mc
     container_name: minio-init
+    # AI! put a health condition this dpeends on
     depends_on:
       - minio
     entrypoint: >
