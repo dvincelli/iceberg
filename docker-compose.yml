@@ -64,19 +64,22 @@ services:
       - "9001:9000"  # Change this to a different port, e.g., 9001:9000
       - "9009:9009"
     networks:
-      - iceberg-network
+    - iceberg-network
 
-#  spark:
-#    image: bitnami/spark
-#    container_name: spark
-#    environment:
-#      - SPARK_MODE=master
-#    ports:
-#      - "8088:8088"
-#      - "7077:7077"
-#      - "4040:4040"
-#    networks:
-#      - iceberg-network
+  jupyter:
+
+    build:
+      context: .
+      dockerfile: Dockerfile.jupyter
+    ports:
+      - "8888:8888"
+    volumes:
+      - ./notebooks:/home/jovyan/work
+    environment:
+      - JUPYTER_ENABLE_LAB=yes
+      - PYSPARK_ALLOW_INSECURE_GATEWAY=1
+    networks:
+      - iceberg-network
 
 networks:
   iceberg-network:
