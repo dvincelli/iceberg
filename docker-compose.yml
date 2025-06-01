@@ -24,9 +24,9 @@ services:
   minio-init:
     image: minio/mc
     container_name: minio-init
-    # AI! put a health condition this dpeends on
     depends_on:
-      - minio
+      minio:
+        condition: service_healthy
     entrypoint: >
       /bin/sh -c "
       /usr/bin/mc alias set myminio http://minio:9002 minioadmin minioadmin;
