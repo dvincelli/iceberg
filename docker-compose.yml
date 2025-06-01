@@ -1,5 +1,4 @@
 version: '3.8'
-# AI! put all services on a network named iceberg-network
 services:
   minio:
     image: minio/minio
@@ -19,6 +18,8 @@ services:
       timeout: 10s
       retries: 3
       start_period: 5s
+    networks:
+      - iceberg-network
 
   minio-init:
     image: minio/mc
@@ -31,6 +32,8 @@ services:
       /usr/bin/mc mb myminio/nessie-bucket;
       exit 0;
       "
+    networks:
+      - iceberg-network
 
   nessie:
     image: projectnessie/nessie
@@ -46,6 +49,8 @@ services:
       - NESSIE_VERSION_STORE_S3_PATH_STYLE_ACCESS=true
     depends_on:
       - minio
+    networks:
+      - iceberg-network
 
   clickhouse:
     image: clickhouse/clickhouse-server
@@ -54,6 +59,8 @@ services:
       - "8123:8123"
       - "9001:9000"  # Change this to a different port, e.g., 9001:9000
       - "9009:9009"
+    networks:
+      - iceberg-network
 
 #  spark:
 #    image: bitnami/spark
@@ -64,3 +71,8 @@ services:
 #      - "8088:8088"
 #      - "7077:7077"
 #      - "4040:4040"
+#    networks:
+#      - iceberg-network
+
+networks:
+  iceberg-network:
