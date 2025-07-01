@@ -19,7 +19,7 @@ services:
       retries: 3
       start_period: 5s
     networks:
-      - iceberg-network
+      - lakehouse
 
   minio-init:
     image: minio/mc
@@ -34,7 +34,7 @@ services:
       exit 0;
       "
     networks:
-      - iceberg-network
+      - lakehouse
 
   nessie:
     image: projectnessie/nessie
@@ -54,7 +54,7 @@ services:
       minio-init:
         condition: service_completed_successfully
     networks:
-      - iceberg-network
+      - lakehouse
 
   clickhouse:
     image: clickhouse/clickhouse-server
@@ -64,10 +64,9 @@ services:
       - "9001:9000"  # Change this to a different port, e.g., 9001:9000
       - "9009:9009"
     networks:
-    - iceberg-network
+    - lakehouse
 
   jupyter:
-
     build:
       context: .
       dockerfile: Dockerfile.jupyter
@@ -79,7 +78,7 @@ services:
       - JUPYTER_ENABLE_LAB=yes
       - PYSPARK_ALLOW_INSECURE_GATEWAY=1
     networks:
-      - iceberg-network
+      - lakehouse
 
 networks:
-  iceberg-network:
+  lakehouse:
